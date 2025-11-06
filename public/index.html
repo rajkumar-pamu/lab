@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Book API Learning Lab — Modern Docs</title>
+  <style>
+    :root {
+      --red:#d50000;
+      --black:#111;
+      --gray:#666;
+      --light:#fafafa;
+      --border:#eaeaea;
+    }
+    *{box-sizing:border-box}
+    body {
+      margin:0;
+      font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+      background: var(--light);
+      color: var(--black);
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(90deg, var(--black), var(--red));
+      color: #fff;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow:hidden;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: .5px;
+      animation: fadeInDown 1s ease;
+    }
+    header p {
+      margin: 8px 0 0;
+      color: #ffeaea;
+      animation: fadeIn 2s ease;
+    }
+    @keyframes fadeInDown {
+      from {opacity:0; transform:translateY(-20px);}
+      to {opacity:1; transform:translateY(0);}
+    }
+    @keyframes fadeIn {
+      from {opacity:0;} to {opacity:1;}
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      border:1px solid var(--border);
+      box-shadow:0 6px 16px rgba(0,0,0,0.04);
+      transition: all .3s ease;
+    }
+    section:hover { box-shadow:0 10px 24px rgba(0,0,0,0.08); }
+
+    h2 {
+      margin:0 0 12px 0;
+      color:var(--red);
+      font-size:22px;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    h2 span {transition: transform .3s ease;}
+    section.collapsed h2 span {transform:rotate(-90deg);}
+    .content {
+      max-height:1000px;
+      overflow:hidden;
+      transition:max-height .5s ease;
+    }
+    section.collapsed .content {max-height:0;padding-top:0;}
+    pre {
+      background:#f7f7f7;
+      border:1px solid var(--border);
+      border-radius:6px;
+      padding:10px;
+      margin:10px 0;
+      white-space:pre-wrap;
+      word-wrap:break-word;
+      font-family:inherit;
+      color:var(--black);
+    }
+    table {
+      width:100%;
+      border-collapse:collapse;
+      margin:10px 0;
+    }
+    th,td {padding:8px 10px;border-bottom:1px solid #eee;text-align:left;}
+    th{color:var(--red);}
+    .note {
+      background:#fff2f2;
+      border-left:4px solid var(--red);
+      padding:10px 16px;
+      margin:16px 0;
+      border-radius:4px;
+    }
+    ol, ul {margin:10px 0 10px 20px;}
+    footer {
+      text-align:center;
+      padding:30px;
+      font-size:13px;
+      color:var(--gray);
+      border-top:1px solid var(--border);
+    }
+    a {color:var(--red); text-decoration:none;}
+    a:hover{text-decoration:underline;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Book API Learning Lab</h1>
+    <p>REST + SOAP API Guide • Base URL: https://rover.extio.io</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Overview <span>▼</span></h2>
+      <div class="content">
+        <p>This learning lab helps you explore REST and SOAP APIs with real working endpoints. You’ll learn authentication, headers, parameters, and status codes using <strong>Postman</strong>.</p>
+        <div class="note">
+          <p><strong>Base URL:</strong> https://rover.extio.io<br>
+          <strong>SOAP WSDL:</strong> https://rover.extio.io/soap/bookservice?wsdl</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Authentication (JWT) <span>▼</span></h2>
+      <div class="content">
+        <p>Use your credentials to obtain a JSON Web Token (JWT). This token is required for all REST endpoints.</p>
+        <pre>POST https://rover.extio.io/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password"
+}</pre>
+        <p>Response:</p>
+        <pre>{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+}</pre>
+        <div class="note">Include the token in request headers:<br>
+        Authorization: Bearer &lt;token&gt;</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>REST API <span>▼</span></h2>
+      <div class="content">
+        <p>The REST API communicates via JSON and standard HTTP verbs.</p>
+        <table>
+          <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+          <tr><td>GET</td><td>/api/books</td><td>List all books</td></tr>
+          <tr><td>GET</td><td>/api/books/:id</td><td>Retrieve a book by ID</td></tr>
+          <tr><td>POST</td><td>/api/books</td><td>Create a new book</td></tr>
+          <tr><td>DELETE</td><td>/api/books/:id</td><td>Delete a book</td></tr>
+        </table>
+        <h3>Create Book Example</h3>
+        <pre>POST https://rover.extio.io/api/books
+Authorization: Bearer &lt;token&gt;
+Content-Type: application/json
+
+{
+  "title": "API Mastery",
+  "author": "Jane Doe",
+  "year": 2025
+}</pre>
+
+        <h3>Get Book Example</h3>
+        <pre>GET https://rover.extio.io/api/books/1
+Authorization: Bearer &lt;token&gt;</pre>
+        <div class="note">
+          Status Codes: 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 404 Not Found
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>SOAP API <span>▼</span></h2>
+      <div class="content">
+        <p>SOAP uses XML envelopes and a single POST endpoint. Use any SOAP client or Postman with <em>Content-Type: text/xml</em>.</p>
+        <div class="note">
+          WSDL: https://rover.extio.io/soap/bookservice?wsdl<br>
+          Endpoint: https://rover.extio.io/soap/bookservice
+        </div>
+
+        <h3>GetBook Request</h3>
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://example.com/books"&gt;
+  &lt;soapenv:Header/&gt;
+  &lt;soapenv:Body&gt;
+    &lt;book:GetBook&gt;
+      &lt;id&gt;1&lt;/id&gt;
+    &lt;/book:GetBook&gt;
+  &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</pre>
+
+        <h3>CreateBook Request</h3>
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://example.com/books"&gt;
+  &lt;soapenv:Header/&gt;
+  &lt;soapenv:Body&gt;
+    &lt;book:CreateBook&gt;
+      &lt;title&gt;SOAP Learning&lt;/title&gt;
+      &lt;author&gt;John Smith&lt;/author&gt;
+      &lt;year&gt;2025&lt;/year&gt;
+    &lt;/book:CreateBook&gt;
+  &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</pre>
+      </div>
+    </section>
+
+    <!--- <section>
+      <h2>Testing with Postman <span>▼</span></h2>
+      <div class="content">
+        <ol>
+          <li>Import <em>BookAPI_LearningLab.postman_collection.json</em>.</li>
+          <li>Create an environment variable <strong>base_url = https://rover.extio.io</strong>.</li>
+          <li>Login to get a JWT and store as <strong>jwt_token</strong>.</li>
+          <li>Run REST and SOAP requests to explore responses.</li>
+        </ol>
+      </div>
+    </section> --->
+
+<section>
+  <h2>Practice Scenarios <span>▼</span></h2>
+  <div class="content">
+    <ul>
+      <li>Try REST without a token — expect 401 Unauthorized.</li>
+      <li>Send malformed JSON — expect 400 Bad Request.</li>
+      <li>Duplicate book creation — expect 409 Conflict.</li>
+      <li>Wrong SOAP namespace — expect SOAP Fault.</li>
+      <li>Create a book via REST and fetch it via SOAP.</li>
+      <li>Test expired JWT — expect 403 Forbidden.</li>
+      <li>Try a non-existent method — expect 405 Method Not Allowed.</li>
+      <li>Compare REST vs SOAP response times.</li>
+    </ul>
+  </div>
+</section>
+
+    <section>
+      <h2>Quick Reference <span>▼</span></h2>
+      <div class="content">
+        <table>
+          <tr><td><strong>Base URL</strong></td><td>https://rover.extio.io</td></tr>
+          <tr><td><strong>Auth</strong></td><td>POST /api/auth/login</td></tr>
+          <tr><td><strong>REST</strong></td><td>/api/books</td></tr>
+          <tr><td><strong>SOAP</strong></td><td>/soap/bookservice</td></tr>
+          <tr><td><strong>WSDL</strong></td><td>/soap/bookservice?wsdl</td></tr>
+          <tr><td><strong>JSON</strong></td><td>Content-Type: application/json</td></tr>
+          <tr><td><strong>SOAP</strong></td><td>Content-Type: text/xml</td></tr>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 Book API Learning Lab • Modern Red-Black Theme • Animated Edition</footer>
+
+  <script>
+    document.querySelectorAll('section').forEach(sec=>{
+      sec.querySelector('h2').addEventListener('click',()=>{
+        sec.classList.toggle('collapsed');
+      });
+    });
+  </script>
+</body>
+</html>
