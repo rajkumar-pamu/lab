@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: book-api
+  name: extio-learn
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: book-api
+      app: extio-learn
   template:
     metadata:
       labels:
-        app: book-api
+        app: extio-learn
     spec:
       containers:
-        - name: book-api
-          image: your-dockerhub/book-api:latest
+        - name: extio-learn
+          image: ext-hyd-ct-reg.extio.io:3000/extio-learn:0.0.5-RELEASE
           ports:
             - containerPort: 8443
           env:
             - name: DB_HOST
-              value: 192.168.1.99
+              value: "192.168.1.99"
             - name: DB_PORT
-              value: 54321  
+              value: "54321"
             - name: DB_USER
-              value: az_postgress_user
+              value: "az_postgress_user"
             - name: DB_PASS
-              value: NwQsR@404#123
+              value: "NwQsR@404#123"
             - name: DB_NAME
-              value: booksdb
+              value: "extio_learn_db"
