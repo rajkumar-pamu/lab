@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: extio-learn
+  labels:
+    app: extio-learn
+    tier: backend  # ✅ Add a value here
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8443        # ✅ External port
+      targetPort: 8443  # ✅ Internal container port
+  selector:
+    app: extio-learn

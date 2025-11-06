@@ -22,7 +22,7 @@ sequelize.sync().then(() => {
   // Attach SOAP service to same HTTP server
   soap.listen(server, "/soap/bookservice", service, xml);
 
-  server.listen(PORT, () => {
+  server.listen(PORT,'0.0.0.0', () => {
     console.log(`🚀 REST + SOAP running at http://localhost:${PORT}`);
     console.log(`🧼 SOAP WSDL: http://localhost:${PORT}/soap/bookservice?wsdl`);
   });
