@@ -7,6 +7,14 @@ import bookRoutes from "./routes/book.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import { service, xml } from "./soap/bookService.js"; // export them from the file
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -14,7 +22,9 @@ app.use(bodyParser.json());
 app.use("/api/books", bookRoutes);
 app.use("/api/auth", authRoutes);
 
+ console.log("📄 Serving docs from:", path.join(__dirname, "../public/index.html"));
 app.get("/api/docs", (req, res) => {
+ 
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
